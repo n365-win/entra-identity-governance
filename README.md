@@ -164,7 +164,7 @@ Step-by-step in [WALKTHROUGH.md](WALKTHROUGH.md). Reasoning in [ARCHITECTURE.md]
 | Check | Evidence | Status |
 |---|---|---|
 | Dynamic group populates by attribute | [The rule](screenshots/02-entitlement/02-07-dynamic-group-rule-and-membership.png) and [the member it produced](screenshots/02-entitlement/02-06-before-dynamic-membership.png) | ✔ |
-| Department change moves group membership | [Department changed to Marketing](screenshots/02-entitlement/02-08-department-change-and-hiredate-after.png); the resulting membership is not captured | ⬚ |
+| Department change moves group membership | [Department IT](screenshots/02-entitlement/02-05-before.png), [in IT Team](screenshots/02-entitlement/02-06-before-dynamic-membership.png), then [changed to Marketing](screenshots/02-entitlement/02-08-department-change-and-hiredate-after.png) | ✔ |
 | Access package request and approval | [Request](screenshots/02-entitlement/02-10-access-package-request.png) and [approver decision](screenshots/02-entitlement/02-11-access-package-approval.png) | ✔ |
 | Access package expires and revokes | [Assignment removed at expiry by Azure AD](screenshots/02-entitlement/02-12-assignment-removed-at-expiry.png) | ✔ |
 
