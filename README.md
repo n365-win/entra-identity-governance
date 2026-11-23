@@ -151,8 +151,8 @@ Step-by-step in [WALKTHROUGH.md](WALKTHROUGH.md). Reasoning in [ARCHITECTURE.md]
 
 | Check | Evidence | Status |
 |---|---|---|
-| Break glass excluded from every policy | Policy exclusion list | ⬚ |
-| Report-only run analysed in sign-in logs | Sign-in log with policy result | ⬚ |
+| Break glass excluded from every policy | [Policy exclusion list](screenshots/01-conditional-access/01-02-break-glass-exclusion-in-policy.png) | ⬚ |
+| Report-only run analysed in sign-in logs | [Sign-in log with policy result](screenshots/01-conditional-access/01-03-report-only-results-in-signin-log.png) | ⬚ |
 | MFA enforced | Sign-in showing the requirement | ⬚ |
 | Legacy authentication blocked | Blocked sign-in in the log | ⬚ |
 | Device compliance enforced | Non-compliant device blocked | ⬚ |
@@ -163,37 +163,37 @@ Step-by-step in [WALKTHROUGH.md](WALKTHROUGH.md). Reasoning in [ARCHITECTURE.md]
 
 | Check | Evidence | Status |
 |---|---|---|
-| Dynamic group populates by attribute | Membership matching the rule | ⬚ |
-| Department change moves group membership | Before/after membership | ⬚ |
-| Access package request and approval | Request with approver decision | ⬚ |
-| Access package expires and revokes | Assignment removed at expiry | ⬚ |
+| Dynamic group populates by attribute | [Membership matching the rule](screenshots/02-entitlement/02-07-dynamic-group-rule-and-membership.png) | ⬚ |
+| Department change moves group membership | [Before](screenshots/02-entitlement/02-06-before-dynamic-membership.png) / [after](screenshots/02-entitlement/02-08-department-change-and-hiredate-after.png) membership | ⬚ |
+| Access package request and approval | [Request](screenshots/02-entitlement/02-10-access-package-request.png) with [approver decision](screenshots/02-entitlement/02-11-access-package-approval.png) | ⬚ |
+| Access package expires and revokes | [Assignment removed at expiry](screenshots/02-entitlement/02-12-assignment-removed-at-expiry.png) | ⬚ |
 
 ### Track 3, privileged access governance
 
 | Check | Evidence | Status |
 |---|---|---|
-| Standing assignments removed | PIM showing eligible-only | ⬚ |
-| Activation requires MFA and justification | Activation request | ⬚ |
+| Standing assignments removed | [PIM showing eligible-only](screenshots/03-privileged/03-02-eligible-instead-of-standing.png) | ⬚ |
+| Activation requires MFA and justification | [Role settings](screenshots/03-privileged/03-01-role-settings.png) and the [activation request](screenshots/03-privileged/03-03-activation-request.png) | ⬚ |
 | Approval workflow completes | Approver granting a request | ⬚ |
-| Role auto-removed at expiry | Audit entry | ⬚ |
-| AU-scoped admin fails outside scope | Failed action | ⬚ |
-| Break glass sign-in alerts | Critical alert fired by a test sign-in, 2026-10-05 | ✔ |
+| Role auto-removed at expiry | [Audit entry](screenshots/03-privileged/03-04-audit-entry-automatic-removal.png) | ⬚ |
+| AU-scoped admin fails outside scope | [Failed action](screenshots/03-privileged/03-08-au-outside-scope-denied.png), against an [in-scope success](screenshots/03-privileged/03-07-au-inside-scope-success.png) | ⬚ |
+| Break glass sign-in alerts | [Critical alert fired by a test sign-in, 2026-10-05](screenshots/00-foundation/00-02-break-glass-alert-fired.png), from [this rule](screenshots/00-foundation/00-01-break-glass-alert-rule-enabled.png) | ✔ |
 
 ### Track 4, Lifecycle Workflows
 
 | Check | Evidence | Status |
 |---|---|---|
-| Joiner and leaver trigger attributes are populated | Entra user properties and readiness output | ⬚ |
-| Source manager is in provisioning scope and matched to the existing Entra user | Provisioning log shows a match, not a create | ⬚ |
-| Manager relationship is applied to the employee | Provisioning log and Entra user manager property | ⬚ |
-| Manager notification has a real mailbox recipient | Entra manager `mail` and a successful task run | ⬚ |
+| Joiner and leaver trigger attributes are populated | Entra user properties and [readiness output](screenshots/04-lifecycle-workflows/manager-link-fix/04-09-planonly-output-after-fix.png) | ⬚ |
+| Source manager is in provisioning scope and matched to the existing Entra user | [Duplicate-create error](screenshots/04-lifecycle-workflows/manager-link-fix/04-04-duplicate-error-manager-out-of-scope.png) before the fix, [allow-list](screenshots/04-lifecycle-workflows/manager-link-fix/04-07-allowed-department-allowdepts-list.png) and [scope change](screenshots/04-lifecycle-workflows/manager-link-fix/04-08-changed-manager-dept-to-allowed-dept-hr.png) after | ⬚ |
+| Manager relationship is applied to the employee | [Relationship linked](screenshots/04-lifecycle-workflows/manager-link-fix/04-10-employee-manager-relationship-linked.png), and [again for a second user](screenshots/04-lifecycle-workflows/manager-link-fix/04-11-daniel-vance-manager-linked.png) | ⬚ |
+| Manager notification has a real mailbox recipient | [Entra manager `mail` and a successful task run](screenshots/04-lifecycle-workflows/manager-link-fix/04-12-manager-mail-and-successful-task-run.png) | ⬚ |
 | Workflow tested on demand before scheduling | Workflow run history | ⬚ |
 
 ### Track 5, access reviews
 
 | Check | Evidence | Status |
 |---|---|---|
-| Review on group/package membership | Completed review with decisions | ⬚ |
+| Review on group/package membership | [Review configuration with auto-apply and deny on no response](screenshots/05-reviews/05-01-review-config-auto-apply-deny-on-no-response.png) | ⬚ |
 | Review on privileged roles | Completed review with decisions | ⬚ |
 | Decisions auto-applied | Access removed following a deny | ⬚ |
 

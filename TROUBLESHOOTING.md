@@ -16,6 +16,8 @@ These incidents were observed while testing BambooHR-to-Entra provisioning and m
 
 The manager record was outside the API-driven provisioning app's scope. An existing Entra account was not sufficient: the provisioning service also needed to process the manager source record so it could resolve the reference. The manager's BambooHR department was Operations, outside the app's then-current allowed department scope.
 
+The trail: [the relationship failing on the employee](screenshots/04-lifecycle-workflows/manager-link-fix/04-02-clark-manager-relationship-failed.png), [the activity detail](screenshots/04-lifecycle-workflows/manager-link-fix/04-03-troubleshooting-details.png), [the manager's own failed log activities](screenshots/04-lifecycle-workflows/manager-link-fix/04-05-xavier-manager-failed-log-activities.png), and [a second employee in the same state](screenshots/04-lifecycle-workflows/manager-link-fix/04-06-jennifer-employeeid-9-before-manager-link.png).
+
 **Fix**
 
 Confirm that the provisioning app's scope includes the manager when policy allows it. Verify target matching before expanding scope (see incident 2), then provision the manager on-demand before the employee, or restart provisioning after the manager is in scope.
@@ -26,7 +28,7 @@ Against a live HR system, the department on a real employee record is not the le
 
 This tenant is a lab. The manager record that blocked the link sat outside the HR-Sync runbook's `$allowDepts` list, so HR-Sync never sent it and the reference had nothing to resolve against, even though the Entra account already existed. The department was changed to bring that identity into scope, and manager relationships were then linked for employees already inside the allowed departments.
 
-Under `screenshots/04-lifecycle-workflows/manager-link-fix/`, `04-07` and `04-08` show the `$allowDepts` list and the department change; `04-09` and `04-10` show the plan-only output and the run that followed. Moving a test identity into scope is part of building the test. The guidance above is about the same edit applied to a real record, where it changes a fact about a person to avoid a scope decision somebody owns.
+[The `$allowDepts` list](screenshots/04-lifecycle-workflows/manager-link-fix/04-07-allowed-department-allowdepts-list.png) and [the department change](screenshots/04-lifecycle-workflows/manager-link-fix/04-08-changed-manager-dept-to-allowed-dept-hr.png) show the two steps; [the plan-only output](screenshots/04-lifecycle-workflows/manager-link-fix/04-09-planonly-output-after-fix.png) and [the run that followed](screenshots/04-lifecycle-workflows/manager-link-fix/04-10-employee-manager-relationship-linked.png) show the result. Moving a test identity into scope is part of building the test. The guidance above is about the same edit applied to a real record, where it changes a fact about a person to avoid a scope decision somebody owns.
 
 The alternative, equally valid here, was to add `Operations` to `$allowDepts` and review what provisioning that department would have created.
 
@@ -36,7 +38,7 @@ The alternative, equally valid here, was to add `Operations` to `$allowDepts` an
 
 `AzureActiveDirectoryDuplicateUserPrincipalName`
 
-The provisioning log showed source ID `8` would be created, then failed because the resulting UPN already existed in Entra.
+The provisioning log showed source ID `8` would be created, then failed because the resulting UPN already existed in Entra. [The log entry](screenshots/04-lifecycle-workflows/manager-link-fix/04-04-duplicate-error-manager-out-of-scope.png) shows the create attempt against an account that already existed.
 
 **Cause**
 
@@ -58,7 +60,7 @@ The manager relationship and the manager's mailbox are different things. BambooH
 
 **Fix**
 
-Resolve the manager relationship through provisioning, then confirm the manager has a real mailbox and an appropriate Exchange license or mail-enabled configuration. Do not fabricate `mail` from a BambooHR value. If the manager is intentionally not mail-enabled, do not rely on the manager-email task for that person.
+Resolve the manager relationship through provisioning, then confirm the manager has a real mailbox and an appropriate Exchange license or mail-enabled configuration. [A manager with real mail and a successful task run](screenshots/04-lifecycle-workflows/manager-link-fix/04-12-manager-mail-and-successful-task-run.png) is what the working state looks like. Do not fabricate `mail` from a BambooHR value. If the manager is intentionally not mail-enabled, do not rely on the manager-email task for that person.
 
 ### 4. Lifecycle date fields exist but most values do not parse
 

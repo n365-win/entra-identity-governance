@@ -77,6 +77,8 @@ Get-MgIdentityConditionalAccessPolicy -All |
 
 A policy that forgot the exclusion is a lockout waiting for an outage.
 
+Evidence: [policy configuration](screenshots/01-conditional-access/01-01-policy-configuration.png), [break-glass exclusion in the policy](screenshots/01-conditional-access/01-02-break-glass-exclusion-in-policy.png).
+
 ## Phase 3: analyse, then enforce
 
 Leave report-only running for several days rather than hours. You need a full working week to catch weekly jobs, weekend access and the service accounts nobody remembered.
@@ -92,6 +94,8 @@ What to look for:
 
 Enforce one policy at a time, starting with the narrowest. Block legacy authentication first: it has the clearest signal in the logs and the smallest legitimate population.
 
+Evidence: [report-only results in the sign-in log](screenshots/01-conditional-access/01-03-report-only-results-in-signin-log.png), then an [allowed sign-in](screenshots/01-conditional-access/01-04-allowed-sign-in.png) and an [enforced block](screenshots/01-conditional-access/01-05-enforced-block.png) once enforcing.
+
 ## Phase 4: dynamic groups for birthright access
 
 Attribute-driven membership that re-evaluates when the attribute changes.
@@ -105,6 +109,8 @@ Entra admin centre → Groups → New → Membership type Dynamic User.
 Include `accountEnabled` so a disabled account drops out of the group. Without it, a disabled user keeps group-derived access, and that access is invisible because they cannot sign in to reveal it.
 
 Test the correction as well as the population: change a test user's department and confirm they leave one group and join the other. Membership updates are asynchronous; allow a few minutes.
+
+Evidence: [the rule and resulting membership](screenshots/02-entitlement/02-07-dynamic-group-rule-and-membership.png), with [before](screenshots/02-entitlement/02-05-before.png), [before dynamic membership](screenshots/02-entitlement/02-06-before-dynamic-membership.png), [after the department change](screenshots/02-entitlement/02-08-department-change-and-hiredate-after.png) and [the updated user](screenshots/02-entitlement/02-09-updated-yanis.png).
 
 ## Phase 5: access packages for requestable access
 
@@ -166,6 +172,8 @@ Set an expiry on the eligibility itself as well as on activation. Eligibility wi
 
 Only after an activation has been tested end to end. Leave break glass permanently assigned.
 
+Evidence: [role settings](screenshots/03-privileged/03-01-role-settings.png), [eligible rather than standing](screenshots/03-privileged/03-02-eligible-instead-of-standing.png), [activation request](screenshots/03-privileged/03-03-activation-request.png), [automatic removal in the audit log](screenshots/03-privileged/03-04-audit-entry-automatic-removal.png). For the Administrative Unit work: [AU members](screenshots/03-privileged/03-05-au-members.png), [AU-scoped role and membership](screenshots/03-privileged/03-06-au-scoped-role-and-membership.png), [in-scope success](screenshots/03-privileged/03-07-au-inside-scope-success.png) and [out-of-scope denial](screenshots/03-privileged/03-08-au-outside-scope-denied.png).
+
 ## Phase 7: access reviews, separately per plane
 
 Entra admin centre → Identity Governance → Access reviews.
@@ -204,6 +212,8 @@ $report.employees |
 
 An employee-reference field may return an employee ID or a display name. Resolve IDs directly; resolve names only when they uniquely identify one person in the report. Do not guess when a name is ambiguous. Keep the actual department and manager data in BambooHR; do not create or seed Entra users manually for a demonstration.
 
+Evidence: [the HR record](screenshots/02-entitlement/02-01-hr-record-yanis.png), [attribute mapping](screenshots/02-entitlement/02-02-attribute-mapping.png), [the allowed department list](screenshots/02-entitlement/02-03-allowed-department.png) and [the accounts it makes eligible](screenshots/02-entitlement/02-04-eligible-accounts.png).
+
 ### 8.2 Verify target matching before changing scope
 
 The API-driven provisioning app must match an existing BambooHR record to the right Entra user. Map the stable BambooHR employee ID consistently to Entra `employeeId` and configure it as a matching property when the service supports it. If using UPN matching instead, make sure the incoming `userName` exactly equals the existing Entra UPN.
@@ -231,6 +241,8 @@ After matching and scope are correct:
 3. Provision the employee on-demand, or restart provisioning after the manager is in scope, as directed by the provisioning log.
 4. Inspect the provisioning log for both records. Confirm the manager source ID matched the intended existing Entra user and that the employee export completed with the manager property applied. `202 Accepted` from bulkUpload only means the request was received.
 5. Check the employee's Entra user properties and confirm the Manager relationship points to the intended person.
+
+Evidence: [the new employee onboarded](screenshots/04-lifecycle-workflows/manager-link-fix/04-01-clark-new-employee-onboarded.png), [the relationship failing](screenshots/04-lifecycle-workflows/manager-link-fix/04-02-clark-manager-relationship-failed.png), and after the fix [the link applied](screenshots/04-lifecycle-workflows/manager-link-fix/04-10-employee-manager-relationship-linked.png) and [repeated for a second user](screenshots/04-lifecycle-workflows/manager-link-fix/04-11-daniel-vance-manager-linked.png). Incident 1 in [TROUBLESHOOTING.md](TROUBLESHOOTING.md) walks the diagnosis.
 
 ### 8.5 Verify mail and lifecycle triggers separately
 
