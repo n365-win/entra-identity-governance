@@ -177,7 +177,7 @@ Step-by-step in [WALKTHROUGH.md](WALKTHROUGH.md). Reasoning in [ARCHITECTURE.md]
 | Approval workflow completes | Approver granting a request | ⬚ |
 | Role auto-removed at expiry | Audit entry | ⬚ |
 | AU-scoped admin fails outside scope | Failed action | ⬚ |
-| Break glass sign-in alerts | Alert fired by a test sign-in | ⬚ |
+| Break glass sign-in alerts | Critical alert fired by a test sign-in, 2026-10-05 | ✔ |
 
 ### Track 4, Lifecycle Workflows
 
