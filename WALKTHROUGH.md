@@ -218,7 +218,7 @@ The observed error was:
 
 > We were unable to assign 8 as the manager of ... Ensure that 8 is in scope for provisioning. Provision 8 on-demand and then provision ... on-demand, or restart provisioning after ensuring that 8 is in scope.
 
-Review the app's scoping filters and department allow-list. If policy permits provisioning the manager's actual department, include it and confirm the identity matching from step 8.2 before running. Do not change an Operations employee's department to Human Resources just to pass the filter. If policy excludes that department, document that the relationship cannot be provisioned through this app rather than falsifying source data.
+Review the app's scoping filters and department allow-list. If policy permits provisioning the manager's actual department, include it and confirm the identity matching from step 8.2 before running. Against a live HR system, do not change a real employee's department to pass the filter. Widen the scope through whoever owns that decision, or document that the relationship cannot be provisioned through this app. Bringing a test identity into scope is a different matter; incident 1 in [TROUBLESHOOTING.md](TROUBLESHOOTING.md) records how that was done here.
 
 The HR-Sync plan checks whether an Entra account with the manager's `employeeId` exists. It cannot override the provisioning app's separate source scope. The SCIM `manager.value` is resolved by the provisioning service, not by a manual Graph relationship write.
 

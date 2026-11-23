@@ -18,7 +18,17 @@ The manager record was outside the API-driven provisioning app's scope. An exist
 
 **Fix**
 
-Keep the employee's real department in BambooHR. Confirm that the provisioning app's scope includes the manager when policy allows it. Verify target matching before expanding scope (see incident 2), then provision the manager on-demand before the employee, or restart provisioning after the manager is in scope. If policy intentionally excludes that department, document that the manager relationship cannot be established by this provisioning job; do not falsify the source department to force it through.
+Confirm that the provisioning app's scope includes the manager when policy allows it. Verify target matching before expanding scope (see incident 2), then provision the manager on-demand before the employee, or restart provisioning after the manager is in scope.
+
+Against a live HR system, the department on a real employee record is not the lever. If policy intentionally excludes that department, widen the scope through whoever owns that decision, or document that the manager relationship cannot be established by this provisioning job.
+
+**How it was resolved here**
+
+This tenant is a lab. The manager record that blocked the link sat outside the HR-Sync runbook's `$allowDepts` list, so HR-Sync never sent it and the reference had nothing to resolve against, even though the Entra account already existed. The department was changed to bring that identity into scope, and manager relationships were then linked for employees already inside the allowed departments.
+
+Screenshots 7 and 8 under `screenshots/04-lifecycle-workflows/manager link fix/` show the `$allowDepts` list and the department change; screenshots 9 and 10 show the plan-only output and the run that followed. Moving a test identity into scope is part of building the test. The guidance above is about the same edit applied to a real record, where it changes a fact about a person to avoid a scope decision somebody owns.
+
+The alternative, equally valid here, was to add `Operations` to `$allowDepts` and review what provisioning that department would have created.
 
 ### 2. Out-of-scope manager was treated as a new user and hit a duplicate UPN
 
